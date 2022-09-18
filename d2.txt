@@ -1,0 +1,51 @@
+from NewsPortal.models import *
+u1 = User.objects.create_user(username='Joey')
+u2 = User.objects.create_user(username='Chandler')
+Author.objects.create(authorUser=u1)
+Author.objects.create(authorUser=u2)
+Category.objects.create(name='World')
+Category.objects.create(name='Science')
+Category.objects.create(name='Sports')
+Category.objects.create(name='IT')
+author = Author.objects.get(id=1)
+Post.objects.create(author=author, headline='Erling Haaland on target again as Manchester City punish 10-man Wolves', text='There does not appear to be a glitch in the Erling Haala
+nd machine. The Manchester City striker took his tally to 11 league goals from seven games, and 14 from 10 in all competitions, after scoring with robotic precision in a procession aga
+inst Wolves. A one-sided contest was bookended by strikes by Jack Grealish and Phil Foden but it is Haaland’s borderline silly numbers that continue to raise eyebrows and generate a ge
+neral sense of disbelief.')
+Post.objects.create(author=author, categoryType='AR', headline="After Apple's iPhone 14 launch event, a few things to consider", text="Though enterprise considerations from Apple's big show were a little thin, what Apple announced — and the strategies it's pursuing — would be good for any smart business to heed.")
+author2 = Author.objects.get(id=2)
+Post.objects.create(author=author2, categoryType='AR', headline="Saturn’s rings and tilt might have come from one missing moon", text="This hypothetical missing moon, dubbed Chrysalis, could have helped tilt Saturn over, researchers suggest September 15 in Science. The ensuing orbital chaos might then have led to the moon’s demise, shredding it to form the iconic rings that encircle the planet today.")
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=3))
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=4))
+Post.objects.get(id=3).postCategory.add(Category.objects.get(id=2))
+Comment.objects.create(post=Post.objects.get(id=1), user=Author.objects.get(id=1).authorUser, text='Erling is a MACHINE!')
+Comment.objects.create(post=Post.objects.get(id=2), user=Author.objects.get(id=2).authorUser, text='Oh, I miss Jobs...')
+Comment.objects.create(post=Post.objects.get(id=3), user=Author.objects.get(id=1).authorUser, text='WOW!')
+Comment.objects.create(post=Post.objects.get(id=1), user=Author.objects.get(id=2).authorUser, text='Erling is NOTHING compared to CR7!')
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=1).dislike()
+Comment.objects.get(id=1).dislike()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).like()
+Post.objects.get(id=3).like()
+Post.objects.get(id=3).like()
+Post.objects.get(id=1).dislike()
+Post.objects.get(id=1).dislike()
+author.update_rating()
+author2.update_rating()
+sp = Author.objects.order_by('-rating')
+sp[0].authorUser
+sp[0].rating
+sp2 = Post.objects.order_by('-rating')
+sp2[0].date
+sp2[0].author.authorUser
+sp2[0].rating
+sp2[0].headline
+sp2[0].preview()
+c = Comment.objects.get(post=Post.objects.get(id=sp2[0].id))
+c.date
+c.user
+c.rating
+c.text
