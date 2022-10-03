@@ -2,6 +2,8 @@
 
 {% load custom_filters %}
 
+{% load custom_tags %}
+
 {% block title %}
 News
 {% endblock title %}
@@ -12,15 +14,15 @@ News
    {% if posts %}
        <table>
            <tr>
-               <td><b>Title</b></td>
                <td><b>Date</b></td>
+               <td><b>Headline</b></td>
                <td><b>Text</b></td>
            </tr>
 
            {% for post in posts %}
            <tr>
-               <td>{{ post.headline|censor }}</td>
                <td>{{ post.date|date:'d M Y' }}</td>
+               <td>{{ post.headline|censor }}</td>
                <td>{{ post.text|truncatewords:20|censor }}</td>
            </tr>
            {% endfor %}
@@ -28,5 +30,21 @@ News
        </table>
    {% else %}
        <h2>Новостей нет!</h2>
+   {% endif %}
+    {% if page_obj.has_previous %}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {{ page_obj.number }}
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
    {% endif %}
 {% endblock content %}
