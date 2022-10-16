@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from .models import Post
 from .filters import PostFilter
@@ -48,7 +48,8 @@ class PostSearch(ListView):
         return context
 
 
-class PostCreateNews(CreateView):
+class PostCreateNews(PermissionRequiredMixin, CreateView):
+    permission_required = ('newsportal.add_post',)
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
@@ -59,7 +60,8 @@ class PostCreateNews(CreateView):
         return super().form_valid(form)
 
 
-class PostCreateArticle(CreateView):
+class PostCreateArticle(PermissionRequiredMixin, CreateView):
+    permission_required = ('newsportal.add_post',)
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
@@ -70,7 +72,8 @@ class PostCreateArticle(CreateView):
         return super().form_valid(form)
 
 
-class PostUpdateNews(UpdateView):
+class PostUpdateNews(PermissionRequiredMixin, UpdateView):
+    permission_required = ('newsportal.change_post',)
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
@@ -81,7 +84,8 @@ class PostUpdateNews(UpdateView):
         return super().form_valid(form)
 
 
-class PostUpdateArticle(UpdateView):
+class PostUpdateArticle(PermissionRequiredMixin, UpdateView):
+    permission_required = ('newsportal.change_post',)
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
@@ -92,15 +96,15 @@ class PostUpdateArticle(UpdateView):
         return super().form_valid(form)
 
 
-class PostDeleteNews(DeleteView):
+class PostDeleteNews(PermissionRequiredMixin, DeleteView):
+    permission_required = ('newsportal.delete_post',)
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
 
 
-class PostDeleteArticle(DeleteView):
+class PostDeleteArticle(PermissionRequiredMixin, DeleteView):
+    permission_required = ('newsportal.delete_post',)
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
-
-
