@@ -5,21 +5,22 @@
 {% load custom_tags %}
 
 {% block title %}
-News
+
 {% endblock title %}
 
 {% block content %}
-   <h1>{{ posts|length }} news</h1>
-   <hr>
-   {% if posts %}
-       <ul class="list-group list-group-flush">
-    {% for post in posts %}
+<h1 class="text-center">News</h1>
+  {% if is_not_subscriber %}
+    <p class="text-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sm">Subscribe</a></p>
+  {% endif %}
+<ul class="list-group list-group-flush">
+    {% for post in category_news_list %}
         <li class="list-group-item">
             <small class="fw-bold">{{ post.date | date:'d M Y' }}</small>
             <a href="{% url 'post_detail' post.id %}">{{ post.headline }}</a>
             <small class="text-muted">(author: {{post.author}})</small><br>
             <small class="fw-bold">categories:
-                {% for category in post.category.all %}
+                {% for category in post.postCategory.all %}
                     <a href="{% url 'category_list' category.id %}">{{ category }}</a>
                 {% endfor %}
             </small>
@@ -27,9 +28,6 @@ News
         </li>
     {% endfor %}
 </ul>
-   {% else %}
-       <h2>Новостей нет!</h2>
-   {% endif %}
     {% if page_obj.has_previous %}
        <a href="?{% url_replace page=1 %}">1</a>
        {% if page_obj.previous_page_number != 1 %}
