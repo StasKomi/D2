@@ -159,7 +159,7 @@ SITE_URL = 'http://127.0.0.1:8000'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = 's.komichenko'
-EMAIL_HOST_PASSWORD = '54Short3347Short'
+EMAIL_HOST_PASSWORD = '************'
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = 's.komichenko@yandex.ru'
 
